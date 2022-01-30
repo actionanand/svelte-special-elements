@@ -1,6 +1,7 @@
 <script>
   import Product from './Product.svelte';
   import CartItem from './CartItem.svelte';
+  import FamilyNode from './FamilyNode.svelte';
 
   export let appName;
 
@@ -15,6 +16,29 @@
     title:'This is test cart',
     id: 'p2'
   };
+
+  const familyStructure = [
+    {
+      isParent: true,
+      name: 'Chris',
+      children: [
+        {
+          isParent: true,
+          name: 'Bob',
+          children: [
+            {
+              isParent: false,
+              name: 'Julie'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      isParent: false,
+      name: 'Anna'
+    }
+  ];
 
   let renderedComp = prodObj;
 
@@ -39,6 +63,9 @@
 {/if} -->
 
 <svelte:component this="{renderedComp.comp}" id="{renderedComp.id}" title="{renderedComp.title}" />
+{#each familyStructure as familyMember (familyMember.name)}
+  <FamilyNode member="{familyMember}" />
+{/each}
 
 <style>
   .title-wrap {
