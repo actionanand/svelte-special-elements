@@ -81,7 +81,9 @@
   
   <svelte:component this="{renderedComp.comp}" id="{renderedComp.id}" title="{renderedComp.title}" />
   {#each familyStructure as familyMember (familyMember.name)}
-    <FamilyNode member="{familyMember}" />
+    <div class="family-wrap">
+      <FamilyNode member="{familyMember}" />
+    </div>
   {/each}
 </div>
 
@@ -100,5 +102,13 @@
 
   .scroll-div {
     height: 2500px;
+  }
+
+  .family-wrap {
+    margin: 1rem 0;
+    border-radius: 5px;
+    background: wheat;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    padding: 1rem;
   }
 </style>

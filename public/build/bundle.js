@@ -507,30 +507,38 @@ var app = (function () {
     const file$3 = "src/Product.svelte";
 
     function create_fragment$3(ctx) {
-    	let h1;
+    	let h2;
     	let t0;
     	let t1;
     	let button;
+    	let mounted;
+    	let dispose;
 
     	const block = {
     		c: function create() {
-    			h1 = element("h1");
+    			h2 = element("h2");
     			t0 = text(/*title*/ ctx[0]);
     			t1 = space();
     			button = element("button");
     			button.textContent = "Add to cart";
-    			add_location(h1, file$3, 5, 0, 57);
-    			attr_dev(button, "class", "svelte-cwlwa5");
-    			add_location(button, file$3, 6, 0, 74);
+    			attr_dev(h2, "class", "prod-wrap svelte-5cj4mf");
+    			add_location(h2, file$3, 9, 0, 147);
+    			attr_dev(button, "class", "svelte-5cj4mf");
+    			add_location(button, file$3, 10, 0, 182);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, h1, anchor);
-    			append_dev(h1, t0);
+    			insert_dev(target, h2, anchor);
+    			append_dev(h2, t0);
     			insert_dev(target, t1, anchor);
     			insert_dev(target, button, anchor);
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", /*onAddToCart*/ ctx[1], { once: true }, false, false);
+    				mounted = true;
+    			}
     		},
     		p: function update(ctx, [dirty]) {
     			if (dirty & /*title*/ 1) set_data_dev(t0, /*title*/ ctx[0]);
@@ -538,9 +546,11 @@ var app = (function () {
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(h1);
+    			if (detaching) detach_dev(h2);
     			if (detaching) detach_dev(t1);
     			if (detaching) detach_dev(button);
+    			mounted = false;
+    			dispose();
     		}
     	};
 
@@ -560,6 +570,11 @@ var app = (function () {
     	validate_slots('Product', slots, []);
     	let { title } = $$props;
     	let { id } = $$props;
+
+    	function onAddToCart() {
+    		$$invalidate(0, title = `${title}. Products were added to the cart.`);
+    	}
+
     	const writable_props = ['title', 'id'];
 
     	Object.keys($$props).forEach(key => {
@@ -568,27 +583,27 @@ var app = (function () {
 
     	$$self.$$set = $$props => {
     		if ('title' in $$props) $$invalidate(0, title = $$props.title);
-    		if ('id' in $$props) $$invalidate(1, id = $$props.id);
+    		if ('id' in $$props) $$invalidate(2, id = $$props.id);
     	};
 
-    	$$self.$capture_state = () => ({ title, id });
+    	$$self.$capture_state = () => ({ title, id, onAddToCart });
 
     	$$self.$inject_state = $$props => {
     		if ('title' in $$props) $$invalidate(0, title = $$props.title);
-    		if ('id' in $$props) $$invalidate(1, id = $$props.id);
+    		if ('id' in $$props) $$invalidate(2, id = $$props.id);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [title, id];
+    	return [title, onAddToCart, id];
     }
 
     class Product extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$3, create_fragment$3, safe_not_equal, { title: 0, id: 1 });
+    		init(this, options, instance$3, create_fragment$3, safe_not_equal, { title: 0, id: 2 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -604,7 +619,7 @@ var app = (function () {
     			console.warn("<Product> was created without expected prop 'title'");
     		}
 
-    		if (/*id*/ ctx[1] === undefined && !('id' in props)) {
+    		if (/*id*/ ctx[2] === undefined && !('id' in props)) {
     			console.warn("<Product> was created without expected prop 'id'");
     		}
     	}
@@ -635,6 +650,8 @@ var app = (function () {
     	let t0;
     	let t1;
     	let button;
+    	let mounted;
+    	let dispose;
 
     	const block = {
     		c: function create() {
@@ -643,9 +660,9 @@ var app = (function () {
     			t1 = space();
     			button = element("button");
     			button.textContent = "Remove from cart";
-    			add_location(h1, file$2, 5, 0, 57);
+    			add_location(h1, file$2, 9, 0, 156);
     			attr_dev(button, "class", "svelte-cwlwa5");
-    			add_location(button, file$2, 6, 0, 74);
+    			add_location(button, file$2, 10, 0, 173);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -655,6 +672,11 @@ var app = (function () {
     			append_dev(h1, t0);
     			insert_dev(target, t1, anchor);
     			insert_dev(target, button, anchor);
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", /*onRemoveFromCart*/ ctx[1], { once: true }, false, false);
+    				mounted = true;
+    			}
     		},
     		p: function update(ctx, [dirty]) {
     			if (dirty & /*title*/ 1) set_data_dev(t0, /*title*/ ctx[0]);
@@ -665,6 +687,8 @@ var app = (function () {
     			if (detaching) detach_dev(h1);
     			if (detaching) detach_dev(t1);
     			if (detaching) detach_dev(button);
+    			mounted = false;
+    			dispose();
     		}
     	};
 
@@ -684,6 +708,11 @@ var app = (function () {
     	validate_slots('CartItem', slots, []);
     	let { title } = $$props;
     	let { id } = $$props;
+
+    	function onRemoveFromCart() {
+    		$$invalidate(0, title = `${title}. Products were removed from the cart.`);
+    	}
+
     	const writable_props = ['title', 'id'];
 
     	Object.keys($$props).forEach(key => {
@@ -692,27 +721,27 @@ var app = (function () {
 
     	$$self.$$set = $$props => {
     		if ('title' in $$props) $$invalidate(0, title = $$props.title);
-    		if ('id' in $$props) $$invalidate(1, id = $$props.id);
+    		if ('id' in $$props) $$invalidate(2, id = $$props.id);
     	};
 
-    	$$self.$capture_state = () => ({ title, id });
+    	$$self.$capture_state = () => ({ title, id, onRemoveFromCart });
 
     	$$self.$inject_state = $$props => {
     		if ('title' in $$props) $$invalidate(0, title = $$props.title);
-    		if ('id' in $$props) $$invalidate(1, id = $$props.id);
+    		if ('id' in $$props) $$invalidate(2, id = $$props.id);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [title, id];
+    	return [title, onRemoveFromCart, id];
     }
 
     class CartItem extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$2, create_fragment$2, safe_not_equal, { title: 0, id: 1 });
+    		init(this, options, instance$2, create_fragment$2, safe_not_equal, { title: 0, id: 2 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -728,7 +757,7 @@ var app = (function () {
     			console.warn("<CartItem> was created without expected prop 'title'");
     		}
 
-    		if (/*id*/ ctx[1] === undefined && !('id' in props)) {
+    		if (/*id*/ ctx[2] === undefined && !('id' in props)) {
     			console.warn("<CartItem> was created without expected prop 'id'");
     		}
     	}
@@ -924,7 +953,7 @@ var app = (function () {
     			t1 = space();
     			if (if_block) if_block.c();
     			add_location(h1, file$1, 27, 2, 465);
-    			attr_dev(div, "class", "svelte-1111zfo");
+    			attr_dev(div, "class", "svelte-v2l6na");
     			toggle_class(div, "active", /*isActive*/ ctx[1]);
     			add_location(div, file$1, 26, 0, 409);
     		},
@@ -1097,8 +1126,9 @@ var app = (function () {
 
     // (83:2) {#each familyStructure as familyMember (familyMember.name)}
     function create_each_block(key_1, ctx) {
-    	let first;
+    	let div;
     	let familynode;
+    	let t;
     	let current;
 
     	familynode = new FamilyNode({
@@ -1110,13 +1140,17 @@ var app = (function () {
     		key: key_1,
     		first: null,
     		c: function create() {
-    			first = empty();
+    			div = element("div");
     			create_component(familynode.$$.fragment);
-    			this.first = first;
+    			t = space();
+    			attr_dev(div, "class", "family-wrap svelte-1macoks");
+    			add_location(div, file, 83, 4, 1914);
+    			this.first = div;
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, first, anchor);
-    			mount_component(familynode, target, anchor);
+    			insert_dev(target, div, anchor);
+    			mount_component(familynode, div, null);
+    			append_dev(div, t);
     			current = true;
     		},
     		p: function update(new_ctx, dirty) {
@@ -1132,8 +1166,8 @@ var app = (function () {
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(first);
-    			destroy_component(familynode, detaching);
+    			if (detaching) detach_dev(div);
+    			destroy_component(familynode);
     		}
     	};
 
@@ -1226,15 +1260,15 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			attr_dev(h1, "class", "capitalize-it svelte-67n25h");
+    			attr_dev(h1, "class", "capitalize-it svelte-1macoks");
     			add_location(h1, file, 62, 2, 1124);
-    			attr_dev(div0, "class", "title-wrap svelte-67n25h");
+    			attr_dev(div0, "class", "title-wrap svelte-1macoks");
     			add_location(div0, file, 61, 0, 1097);
-    			attr_dev(button0, "class", "svelte-67n25h");
+    			attr_dev(button0, "class", "svelte-1macoks");
     			add_location(button0, file, 73, 2, 1471);
-    			attr_dev(button1, "class", "svelte-67n25h");
+    			attr_dev(button1, "class", "svelte-1macoks");
     			add_location(button1, file, 74, 2, 1526);
-    			attr_dev(div1, "class", "scroll-div svelte-67n25h");
+    			attr_dev(div1, "class", "scroll-div svelte-1macoks");
     			add_location(div1, file, 72, 0, 1444);
     		},
     		l: function claim(nodes) {
